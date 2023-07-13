@@ -1,6 +1,7 @@
 {{- define "wg-config-template" -}}
 [Interface]
 Address = {{ .Values.wireguard.serverAddress }}
+MTU = 1320
 ListenPort = 51820
 PostUp = wg set wg0 private-key /etc/wireguard/privatekey && iptables -t nat -A POSTROUTING -s {{ .Values.wireguard.serverCidr }} -o eth0 -j MASQUERADE
 PostDown = iptables -t nat -D POSTROUTING -s {{ .Values.wireguard.serverCidr }} -o eth0 -j MASQUERADE
@@ -10,6 +11,8 @@ PostDown = iptables -t nat -D POSTROUTING -s {{ .Values.wireguard.serverCidr }} 
 [Peer]
 PublicKey = {{ .PublicKey }}
 AllowedIPs = {{ .AllowedIPs }}
+Endpoint = {{ .Endpoint }}
+
 {{- if .PresharedKey }}
 PresharedKey = {{ .PresharedKey }}
 {{- end }}

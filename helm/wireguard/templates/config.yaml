@@ -11,7 +11,9 @@ PostDown = iptables -t nat -D POSTROUTING -s {{ .Values.wireguard.serverCidr }} 
 [Peer]
 PublicKey = {{ .PublicKey }}
 AllowedIPs = {{ .AllowedIPs }}
+{{- if .Endpoint }}
 Endpoint = {{ .Endpoint }}
+{{- end }}
 
 {{- if .PresharedKey }}
 PresharedKey = {{ .PresharedKey }}
